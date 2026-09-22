@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Slay-the-spire-tutoriel.unity
+    path: Assets/Scenes/Battle.unity
+    guid: 4e87ead18dd2258479f19cad95b3714c
+  - enabled: 0
+    path: Assets/Scenes/Slay-the-spire-tutoriel.unity
     guid: bd46d34070a5ba2478d9e34078398224
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

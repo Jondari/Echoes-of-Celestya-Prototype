@@ -47,6 +47,7 @@ public class DamageSystem : MonoBehaviour
                 {
                     // Do some game over logic here
                     // Open Game Over Scene
+                    BattleFlowSystem.Instance.Defeat();
                 }
             }
         }

@@ -107,3 +107,8 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# Local collaboration instructions and learning references
+/AGENTS.md
+/Assets/Reference/
+/Assets/Reference.meta

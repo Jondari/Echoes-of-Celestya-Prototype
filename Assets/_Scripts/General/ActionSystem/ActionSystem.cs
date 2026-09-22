@@ -9,6 +9,10 @@ public class ActionSystem : Singleton<ActionSystem>
     private static Dictionary<Type, List<Action<GameAction>>> preSubs = new();
     private static Dictionary<Type, List<Action<GameAction>>> postSubs = new();
     private static Dictionary<Type, Func<GameAction, IEnumerator>> performers = new();
+    private static readonly Dictionary<
+        (Type actionType, ReactionTiming timing, Delegate reaction),
+        Action<GameAction>
+    > reactionWrappers = new();
     public void Perform(GameAction action, System.Action OnPerformFinished = null)
     {
         if (IsPerforming) return;
@@ -91,27 +95,41 @@ public class ActionSystem : Singleton<ActionSystem>
 
     public static void SubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T: GameAction
     {
-        Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? preSubs : postSubs;
-        void wrappedReaction(GameAction action) => reaction((T)action);
-        if (subs.ContainsKey(typeof(T)))
+        var key = (typeof(T), timing, (Delegate)reaction);
+
+        if (reactionWrappers.ContainsKey(key))
+            return;
+
+        var subs = timing == ReactionTiming.PRE ? preSubs : postSubs;
+        Action<GameAction> wrappedReaction = action => reaction((T)action);
+
+        if (!subs.TryGetValue(typeof(T), out var subscribers))
         {
-            subs[typeof(T)].Add(wrappedReaction);
+            subscribers = new List<Action<GameAction>>();
+            subs.Add(typeof(T), subscribers);
         }
-        else
-        {
-            subs.Add(typeof(T), new());
-            subs[typeof(T)].Add(wrappedReaction);
-        }
+
+        subscribers.Add(wrappedReaction);
+        reactionWrappers.Add(key, wrappedReaction);
     }
 
     public static void UnsubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T : GameAction
     {
-        Dictionary<Type, List<Action<GameAction>>> subs = timing == ReactionTiming.PRE ? preSubs : postSubs;
-        
-        if (subs.ContainsKey(typeof(T)))
+        var key = (typeof(T), timing, (Delegate)reaction);
+
+        if (!reactionWrappers.TryGetValue(key, out var wrappedReaction))
+            return;
+
+        var subs = timing == ReactionTiming.PRE ? preSubs : postSubs;
+
+        if (subs.TryGetValue(typeof(T), out var subscribers))
         {
-            void wrappedReaction(GameAction action) => reaction((T)action);
-            subs[typeof(T)].Remove(wrappedReaction);
+            subscribers.Remove(wrappedReaction);
+
+            if (subscribers.Count == 0)
+                subs.Remove(typeof(T));
         }
+
+        reactionWrappers.Remove(key);
     }
 }

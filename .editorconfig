@@ -2,3 +2,10 @@ root = true
 
 [*]
 end_of_line = crlf
+
+# Match Unity's serialized JSON and YAML files and .gitattributes
+[*.{asmdef,asmref,index,inputactions,shadergraph,shadersubgraph}]
+end_of_line = lf
+
+[*.{anim,asset,brush,controller,flare,fontsettings,giparams,guiskin,lighting,mask,mat,meta,mixer,overrideController,playable,prefab,preset,renderTexture,scenetemplate,shadervariants,signal,spriteatlas,spriteatlasv2,terrainlayer,unity,physicMaterial,physicsMaterial2D}]
+end_of_line = lf

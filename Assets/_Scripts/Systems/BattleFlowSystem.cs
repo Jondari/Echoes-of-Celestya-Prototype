@@ -21,6 +21,7 @@ public class BattleFlowSystem : Singleton<BattleFlowSystem>
             UpdatePanelText("Game over", "Retry");
         }
         BattleResultPanel.SetActive(true);
+        CardViewHoverSystem.Instance.Hide();
     }
 
     public void Victory()

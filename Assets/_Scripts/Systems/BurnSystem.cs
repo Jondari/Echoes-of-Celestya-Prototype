@@ -22,11 +22,18 @@ public class BurnSystem : MonoBehaviour
         target.Damage(applyBurnGA.BurnDamage);
         target.RemoveStatusEffect(StatusEffectType.BURN, 1);
 
-        if (target.CurrentHealth <= 0 && target is EnemyView enemyView)
+        if (target.CurrentHealth <= 0)
         {
-            KillEnemyGA killEnemyGA = new(enemyView);
-            ActionSystem.Instance.AddReaction(killEnemyGA);
-        }        
+            if (target is EnemyView enemyView)
+            {
+                KillEnemyGA killEnemyGA = new(enemyView);
+                ActionSystem.Instance.AddReaction(killEnemyGA);
+            }
+            else if (target is HeroView)
+            {
+                BattleFlowSystem.Instance.Defeat();
+            }
+        }
         yield return new WaitForSeconds(1f);
     }
 }

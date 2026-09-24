@@ -24,5 +24,6 @@ public class HeroSelectionUI : MonoBehaviour
     private void SelectHero(HeroData hero)
     {
         GameSession.Instance.SelectHero(hero);
+        GameFlowSystem.Instance.ShowMap();
     }
 }

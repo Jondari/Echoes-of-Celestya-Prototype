@@ -48,8 +48,29 @@ public class BattleFlowSystem : Singleton<BattleFlowSystem>
         ActionButtonText.text = actionButtonText;
     }
 
-    public void ReloadCurrentBattle()
+    public void OnResultButtonClicked()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (State == BattleState.PLAYING)
+        {
+            return;
+        }
+
+        #if UNITY_EDITOR
+        // Preserve standalone Battle testing in the Editor.
+        if (BattleSceneController.Instance == null)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            return;
+        }
+        #endif
+
+        if (State == BattleState.DEFEAT)
+        {
+            BattleSceneController.Instance.RetryBattle();
+        }
+        else if (State == BattleState.VICTORY)
+        {
+            BattleSceneController.Instance.ReturnToMap();
+        }
     }
 }

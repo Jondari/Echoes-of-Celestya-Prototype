@@ -2385,7 +2385,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 898760400}
         m_TargetAssemblyTypeName: BattleFlowSystem, Assembly-CSharp
-        m_MethodName: ReloadCurrentBattle
+        m_MethodName: OnResultButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

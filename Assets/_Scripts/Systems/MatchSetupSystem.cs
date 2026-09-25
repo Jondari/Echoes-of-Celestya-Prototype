@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class MatchSetupSystem : MonoBehaviour
+public class MatchSetupSystem : Singleton<MatchSetupSystem>
 {
     [SerializeField] private HeroData heroData;
     [SerializeField] private PerkData perkData;
     [SerializeField] private List<EnemyData> enemyDatas;
 
-    private void Start()
+    public void SetupBattle()
     {
         HeroSystem.Instance.Setup(heroData);
         EnemySystem.Instance.Setup(enemyDatas);

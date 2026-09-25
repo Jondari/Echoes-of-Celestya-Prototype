@@ -6,12 +6,31 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
     [SerializeField] private HeroData heroData;
     [SerializeField] private PerkData perkData;
     [SerializeField] private List<EnemyData> enemyDatas;
+    [SerializeField] private GameObject standaloneEventSystem;
 
     public void SetupBattle()
     {
-        HeroSystem.Instance.Setup(heroData);
+        HeroData selectedHero = null;
+        
+        if(GameSession.Instance != null)
+        {
+            selectedHero = GameSession.Instance.SelectedHero;
+        }
+
+        if (selectedHero == null)
+        {
+            selectedHero = heroData;
+        }
+
+        if (selectedHero == null)
+        {
+            Debug.LogError("No HeroData available to initialize the battle.", this);
+            return;
+        }
+
+        HeroSystem.Instance.Setup(selectedHero);
+        CardSystem.Instance.Setup(selectedHero.Deck);
         EnemySystem.Instance.Setup(enemyDatas);
-        CardSystem.Instance.Setup(heroData.Deck);
         PerkSystem.Instance.AddPerk(new Perk(perkData));
 
         RefillManaGA refillManaGA = new();
@@ -21,5 +40,28 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
             DrawCardsGA drawCardsGA = new(5);
             ActionSystem.Instance.Perform(drawCardsGA);
         });
+    }
+
+    // Initialize Battle directly for standalone testing in the Editor.
+    private void Start()
+    {
+    #if UNITY_EDITOR
+        if (GameSession.Instance == null)
+        {
+            if (standaloneEventSystem != null)
+            {
+                standaloneEventSystem.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning(
+                    "No standalone EventSystem assigned for Battle testing.",
+                    this
+                );
+            }
+
+            SetupBattle();
+        }
+    #endif        
     }
 }

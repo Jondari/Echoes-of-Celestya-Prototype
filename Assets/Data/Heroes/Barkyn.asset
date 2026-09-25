@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ddafe981df1d041be69baa86ec9ff2, type: 3}
+  m_Name: Barkyn
+  m_EditorClassIdentifier: Assembly-CSharp::HeroData
+  <Image>k__BackingField: {fileID: 21300000, guid: bfa0314cf13d91a4795fcf28bc49f798, type: 3}
+  <Health>k__BackingField: 80
+  <Deck>k__BackingField:
+  - {fileID: 11400000, guid: 494d61620df806f4f8b79f6f3467c6e4, type: 2}
+  - {fileID: 11400000, guid: 494d61620df806f4f8b79f6f3467c6e4, type: 2}
+  - {fileID: 11400000, guid: 494d61620df806f4f8b79f6f3467c6e4, type: 2}
+  - {fileID: 11400000, guid: 229240e300550b04a9f337e9001a5ed8, type: 2}
+  - {fileID: 11400000, guid: 229240e300550b04a9f337e9001a5ed8, type: 2}
+  - {fileID: 11400000, guid: 229240e300550b04a9f337e9001a5ed8, type: 2}
+  - {fileID: 11400000, guid: 11beb6b6570982441b37b9cbe846f5cc, type: 2}
+  - {fileID: 11400000, guid: 11beb6b6570982441b37b9cbe846f5cc, type: 2}
+  - {fileID: 11400000, guid: 11beb6b6570982441b37b9cbe846f5cc, type: 2}
+  - {fileID: 11400000, guid: 19fe74dce0b81964a9ef9825038ab76d, type: 2}
+  - {fileID: 11400000, guid: 19fe74dce0b81964a9ef9825038ab76d, type: 2}
+  - {fileID: 11400000, guid: 19fe74dce0b81964a9ef9825038ab76d, type: 2}
+  - {fileID: 11400000, guid: 7f5c2e9a12eb2f14db6227617631a4f5, type: 2}
+  - {fileID: 11400000, guid: 7f5c2e9a12eb2f14db6227617631a4f5, type: 2}
+  - {fileID: 11400000, guid: 7f5c2e9a12eb2f14db6227617631a4f5, type: 2}

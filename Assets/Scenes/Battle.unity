@@ -417,6 +417,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3ed4c7a78db40304eba2f1216ce906d7, type: 2}
   - {fileID: 11400000, guid: 3ed4c7a78db40304eba2f1216ce906d7, type: 2}
   - {fileID: 11400000, guid: 9de33f72e1e4a5d45abb5908b17a435a, type: 2}
+  standaloneEventSystem: {fileID: 904104211}
 --- !u!1 &203946957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1544,7 +1545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &904104212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2384,7 +2385,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 898760400}
         m_TargetAssemblyTypeName: BattleFlowSystem, Assembly-CSharp
-        m_MethodName: ReloadCurrentBattle
+        m_MethodName: OnResultButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

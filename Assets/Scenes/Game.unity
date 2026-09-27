@@ -485,7 +485,7 @@ MonoBehaviour:
       - m_Target: {fileID: 424383820}
         m_TargetAssemblyTypeName: BattleSceneController, Assembly-CSharp
         m_MethodName: LoadBattle
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -755,11 +755,11 @@ MonoBehaviour:
       - m_Target: {fileID: 424383820}
         m_TargetAssemblyTypeName: BattleSceneController, Assembly-CSharp
         m_MethodName: LoadBattle
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3683,6 +3683,7 @@ GameObject:
   - component: {fileID: 1801927216}
   - component: {fileID: 1801927218}
   - component: {fileID: 1801927217}
+  - component: {fileID: 1801927219}
   m_Layer: 0
   m_Name: MapPanel
   m_TagString: Untagged
@@ -3751,6 +3752,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1801927215}
   m_CullTransparentMesh: 1
+--- !u!114 &1801927219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801927215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abe872024b09d6c4d942b1f871b3362c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapUI
+  battleButtons:
+  - {fileID: 112710772}
+  - {fileID: 179355362}
+  - {fileID: 2110955340}
 --- !u!1 &1863358230
 GameObject:
   m_ObjectHideFlags: 0
@@ -4460,11 +4477,11 @@ MonoBehaviour:
       - m_Target: {fileID: 424383820}
         m_TargetAssemblyTypeName: BattleSceneController, Assembly-CSharp
         m_MethodName: LoadBattle
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

@@ -6,12 +6,18 @@ public class BattleSceneController : Singleton<BattleSceneController>
 {
     private bool isLoading = false;
 
-    public void LoadBattle()
+    public void LoadBattle(int battleIndex)
     {
-        if (!isLoading && !SceneManager.GetSceneByName("Battle").isLoaded)
+        if (GameSession.Instance != null 
+            && GameSession.Instance.CurrentRun != null 
+            && GameSession.Instance.CurrentRun.IsBattleAvailable(battleIndex))
         {
-            isLoading = true;
-            StartCoroutine(LoadBattleRoutine());
+            if (!isLoading && !SceneManager.GetSceneByName("Battle").isLoaded)
+            {
+                GameSession.Instance.CurrentRun.UpdateCurrentEncounter(battleIndex);
+                isLoading = true;
+                StartCoroutine(LoadBattleRoutine());
+            }
         }
     }
 

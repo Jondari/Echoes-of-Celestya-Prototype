@@ -16,6 +16,26 @@ public class RunState
 
     public void UpdateCurrentEncounter(int encounter)
     {
-        CurrentEncounter = encounter;
+        if (encounter >= 0 && encounter < BattleCompleted.Length)
+        {
+            CurrentEncounter = encounter;
+        }
+    }
+
+    // A battle is available if its index is valid, it has not been completed,
+    // and it is either the first battle or the previous battle has been completed.
+    public bool IsBattleAvailable(int battleIndex)
+    {
+        if (battleIndex >= 0 && battleIndex < BattleCompleted.Length)
+        {
+            return !BattleCompleted[battleIndex] && (battleIndex == 0 || BattleCompleted[battleIndex - 1]);
+        }
+
+        return false;
+    }
+
+    public void CompleteCurrentBattle()
+    {
+        BattleCompleted[CurrentEncounter] = true;
     }
 }

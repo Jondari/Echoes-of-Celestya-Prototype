@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class BattleSceneController : Singleton<BattleSceneController>
@@ -51,23 +50,25 @@ public class BattleSceneController : Singleton<BattleSceneController>
         yield return LoadBattleRoutine();
     }
 
-    public void ReturnToMap()
+    public void OpenRewards()
     {
         if (!isLoading && SceneManager.GetSceneByName("Battle").isLoaded)
         {
             isLoading = true;
-            StartCoroutine(ReturnToMapRoutine());
+            StartCoroutine(OpenRewardsRoutine());
         }
     }
 
-    private IEnumerator ReturnToMapRoutine()
+    private IEnumerator OpenRewardsRoutine()
     {
         Scene gameScene = SceneManager.GetSceneByName("Game");
         SceneManager.SetActiveScene(gameScene);
 
         yield return SceneManager.UnloadSceneAsync("Battle");
 
-        GameFlowSystem.Instance.ShowMap();
+        RewardSystem.Instance.SetupRewards();
+
+        GameFlowSystem.Instance.ShowRewards();
         isLoading = false;
     }
 }

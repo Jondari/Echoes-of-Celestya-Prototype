@@ -30,11 +30,6 @@ public class BattleFlowSystem : Singleton<BattleFlowSystem>
         {
             State = BattleState.VICTORY;
             ShowBattleResult();
-
-            if (GameSession.Instance != null && GameSession.Instance.CurrentRun != null)
-            {
-                GameSession.Instance.CurrentRun.CompleteCurrentBattle();
-            }
         }
     }
 
@@ -75,7 +70,7 @@ public class BattleFlowSystem : Singleton<BattleFlowSystem>
         }
         else if (State == BattleState.VICTORY)
         {
-            BattleSceneController.Instance.ReturnToMap();
+            BattleSceneController.Instance.OpenRewards();
         }
     }
 }

@@ -5,6 +5,7 @@ public class GameFlowSystem : Singleton<GameFlowSystem>
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject heroSelectionPanel;
     [SerializeField] private GameObject mapPanel;
+    [SerializeField] private GameObject rewardPanel;
 
     void Start()
     {
@@ -29,10 +30,17 @@ public class GameFlowSystem : Singleton<GameFlowSystem>
         mapPanel.SetActive(true);
     }
 
+    public void ShowRewards()
+    {
+        HideAllPanels();
+        rewardPanel.SetActive(true);
+    }
+
     public void HideAllPanels() 
     {
         mainMenuPanel.SetActive(false);
         heroSelectionPanel.SetActive(false);
         mapPanel.SetActive(false);
+        rewardPanel.SetActive(false);
     }
 }

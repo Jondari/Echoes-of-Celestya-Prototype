@@ -7,6 +7,8 @@ public class RewardSystem : Singleton<RewardSystem>
     private readonly System.Random random = new();
     [SerializeField] List<CardData> rewardPool = new();
     [SerializeField] private RewardOptionUI[] rewardOptions;
+    private List<CardData> currentRewards = new();
+    private bool isRewardPending = false;
 
     private List<CardData> GenerateRewards()
     {
@@ -36,16 +38,46 @@ public class RewardSystem : Singleton<RewardSystem>
 
     public void SetupRewards()
     {
-        List<CardData> rewards = GenerateRewards();
+        isRewardPending = false;
+        SetOptionsInteractable(false);
 
-        if(rewards.Count == 0 )
+        currentRewards = GenerateRewards();
+
+        if (currentRewards.Count == 0 )
         {
             return;
         }
 
-        for(var i = 0; i < rewardOptions.Length; i++)
+        for (var i = 0; i < rewardOptions.Length; i++)
         {
-            rewardOptions[i].Setup(rewards[i]);
+            rewardOptions[i].Setup(currentRewards[i]);
+        }
+        isRewardPending = true;
+        SetOptionsInteractable(true);
+    }
+
+    public void SelectReward(CardData card)
+    {
+        if (card == null || !isRewardPending || !currentRewards.Contains(card))
+        {
+            return;
+        }
+
+        if (GameSession.Instance != null && GameSession.Instance.CurrentRun != null)
+        {
+            isRewardPending = false;
+            SetOptionsInteractable(false);
+            GameSession.Instance.CurrentRun.CurrentDeck.Add(card);
+            GameSession.Instance.CurrentRun.CompleteCurrentBattle();
+            GameFlowSystem.Instance.ShowMap();
+        }
+    }
+
+    private void SetOptionsInteractable(bool isInteractable)
+    {
+        for (var i = 0; i < rewardOptions.Length; i++)
+        {
+            rewardOptions[i].SetInteractable(isInteractable);
         }
     }
 }

@@ -2354,7 +2354,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 533071980}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 533071982}
+        m_TargetAssemblyTypeName: RewardOptionUI, Assembly-CSharp
+        m_MethodName: OnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &533071980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2409,6 +2421,7 @@ MonoBehaviour:
   nameText: {fileID: 2063960135}
   costText: {fileID: 156186048}
   descriptionText: {fileID: 295453308}
+  button: {fileID: 533071979}
 --- !u!1 &567934344
 GameObject:
   m_ObjectHideFlags: 0
@@ -3322,6 +3335,7 @@ MonoBehaviour:
   mainMenuPanel: {fileID: 637380132}
   heroSelectionPanel: {fileID: 719964497}
   mapPanel: {fileID: 1801927215}
+  rewardPanel: {fileID: 433392006}
 --- !u!1 &906937968
 GameObject:
   m_ObjectHideFlags: 0
@@ -5326,7 +5340,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1619065156}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1619065158}
+        m_TargetAssemblyTypeName: RewardOptionUI, Assembly-CSharp
+        m_MethodName: OnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1619065156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5381,6 +5407,7 @@ MonoBehaviour:
   nameText: {fileID: 603607795}
   costText: {fileID: 442479810}
   descriptionText: {fileID: 134944673}
+  button: {fileID: 1619065155}
 --- !u!1 &1657996459
 GameObject:
   m_ObjectHideFlags: 0
@@ -6364,7 +6391,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1998623931}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1998623933}
+        m_TargetAssemblyTypeName: RewardOptionUI, Assembly-CSharp
+        m_MethodName: OnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1998623931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6419,6 +6458,7 @@ MonoBehaviour:
   nameText: {fileID: 1265077768}
   costText: {fileID: 485690600}
   descriptionText: {fileID: 1287741550}
+  button: {fileID: 1998623930}
 --- !u!1 &2035671038
 GameObject:
   m_ObjectHideFlags: 0

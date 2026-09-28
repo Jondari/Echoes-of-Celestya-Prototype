@@ -50,7 +50,7 @@ public class CombatantView : MonoBehaviour
             }
         }
         // shaking animation
-        transform.DOShakePosition(0.2f, 0.5f);
+        transform.DOShakePosition(0.2f, 0.5f).SetLink(gameObject, LinkBehaviour.KillOnDestroy);
         UpdateHealthText() ;
     }
 

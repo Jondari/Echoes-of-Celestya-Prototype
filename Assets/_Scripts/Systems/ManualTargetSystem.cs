@@ -14,7 +14,7 @@ public class ManualTargetSystem : Singleton<ManualTargetSystem>
     public EnemyView EndTargeting(Vector3 endPosition)
     {
         arrowView.gameObject.SetActive(false);
-        if (Physics.Raycast(endPosition, Vector3.forward, out RaycastHit hit, targetLayerMask)
+        if (Physics.Raycast(endPosition,Vector3.forward,out RaycastHit hit,maxDistance: Mathf.Infinity,layerMask: targetLayerMask)
             && hit.collider != null
             && hit.transform.TryGetComponent(out EnemyView enemyView))
         {

@@ -1399,6 +1399,7 @@ Transform:
   - {fileID: 1000844095}
   - {fileID: 899753518}
   - {fileID: 424383819}
+  - {fileID: 1424314136}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &295453306
@@ -2278,6 +2279,7 @@ GameObject:
   - component: {fileID: 533071981}
   - component: {fileID: 533071980}
   - component: {fileID: 533071979}
+  - component: {fileID: 533071982}
   m_Layer: 0
   m_Name: RewardOption2
   m_TagString: Untagged
@@ -2391,6 +2393,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533071977}
   m_CullTransparentMesh: 1
+--- !u!114 &533071982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533071977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98232ed28d373784ca3cad426bc0cba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RewardOptionUI
+  artwork: {fileID: 472394903}
+  nameText: {fileID: 2063960135}
+  costText: {fileID: 156186048}
+  descriptionText: {fileID: 295453308}
 --- !u!1 &567934344
 GameObject:
   m_ObjectHideFlags: 0
@@ -4651,6 +4669,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379579445}
   m_CullTransparentMesh: 1
+--- !u!1 &1424314135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1424314136}
+  - component: {fileID: 1424314137}
+  m_Layer: 0
+  m_Name: RewardSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1424314136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424314135}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 263288205}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1424314137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424314135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bffb7c4940d1d34eb64b2f36bc1cbcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RewardSystem
+  rewardPool:
+  - {fileID: 11400000, guid: 19fe74dce0b81964a9ef9825038ab76d, type: 2}
+  - {fileID: 11400000, guid: 494d61620df806f4f8b79f6f3467c6e4, type: 2}
+  - {fileID: 11400000, guid: 11beb6b6570982441b37b9cbe846f5cc, type: 2}
+  rewardOptions:
+  - {fileID: 1998623933}
+  - {fileID: 533071982}
+  - {fileID: 1619065158}
 --- !u!1 &1431726798
 GameObject:
   m_ObjectHideFlags: 0
@@ -5181,6 +5251,7 @@ GameObject:
   - component: {fileID: 1619065157}
   - component: {fileID: 1619065156}
   - component: {fileID: 1619065155}
+  - component: {fileID: 1619065158}
   m_Layer: 0
   m_Name: RewardOption3
   m_TagString: Untagged
@@ -5294,6 +5365,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619065153}
   m_CullTransparentMesh: 1
+--- !u!114 &1619065158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619065153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98232ed28d373784ca3cad426bc0cba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RewardOptionUI
+  artwork: {fileID: 1467610699}
+  nameText: {fileID: 603607795}
+  costText: {fileID: 442479810}
+  descriptionText: {fileID: 134944673}
 --- !u!1 &1657996459
 GameObject:
   m_ObjectHideFlags: 0
@@ -6202,6 +6289,7 @@ GameObject:
   - component: {fileID: 1998623932}
   - component: {fileID: 1998623931}
   - component: {fileID: 1998623930}
+  - component: {fileID: 1998623933}
   m_Layer: 0
   m_Name: RewardOption1
   m_TagString: Untagged
@@ -6315,6 +6403,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1998623928}
   m_CullTransparentMesh: 1
+--- !u!114 &1998623933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998623928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98232ed28d373784ca3cad426bc0cba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RewardOptionUI
+  artwork: {fileID: 2067120752}
+  nameText: {fileID: 1265077768}
+  costText: {fileID: 485690600}
+  descriptionText: {fileID: 1287741550}
 --- !u!1 &2035671038
 GameObject:
   m_ObjectHideFlags: 0

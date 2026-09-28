@@ -2479,7 +2479,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 76fbbb0fd869a174c9c9193da5d05dc4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9054189d09a64f34495ee5f49e21a88e, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -4728,9 +4728,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RewardSystem
   rewardPool:
-  - {fileID: 11400000, guid: 19fe74dce0b81964a9ef9825038ab76d, type: 2}
   - {fileID: 11400000, guid: 494d61620df806f4f8b79f6f3467c6e4, type: 2}
+  - {fileID: 11400000, guid: 229240e300550b04a9f337e9001a5ed8, type: 2}
+  - {fileID: 11400000, guid: f5c766821cad56443aa1850741f6d924, type: 2}
+  - {fileID: 11400000, guid: 3e0425efe2046eb43838da5aa153e07b, type: 2}
   - {fileID: 11400000, guid: 11beb6b6570982441b37b9cbe846f5cc, type: 2}
+  - {fileID: 11400000, guid: 19fe74dce0b81964a9ef9825038ab76d, type: 2}
+  - {fileID: 11400000, guid: 7f5c2e9a12eb2f14db6227617631a4f5, type: 2}
+  - {fileID: 11400000, guid: c2062dd9c9ae0d3448377c00f363891c, type: 2}
   rewardOptions:
   - {fileID: 1998623933}
   - {fileID: 533071982}

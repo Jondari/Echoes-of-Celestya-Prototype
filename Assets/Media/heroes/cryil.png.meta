@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 76fbbb0fd869a174c9c9193da5d05dc4
+guid: 9054189d09a64f34495ee5f49e21a88e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4164934103186699056
-    second: cryil_pixel_art_trans_0
+      213: 5933106749997988122
+    second: cryil_pixel_art_trans_flipped_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -102,7 +102,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cryil_pixel_art_trans_0
+      name: cryil_pixel_art_trans_flipped_0
       rect:
         serializedVersion: 2
         x: 0
@@ -117,8 +117,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0dc85aaff7e2336c0800000000000000
-      internalID: -4164934103186699056
+      spriteID: a193a187721a65250800000000000000
+      internalID: 5933106749997988122
       vertices: []
       indices: 
       edges: []

@@ -1,17 +1,22 @@
 using System.Collections;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class BattleSceneController : Singleton<BattleSceneController>
 {
     private bool isLoading = false;
 
-    public void LoadBattle()
+    public void LoadBattle(int battleIndex)
     {
-        if (!isLoading && !SceneManager.GetSceneByName("Battle").isLoaded)
+        if (GameSession.Instance != null 
+            && GameSession.Instance.CurrentRun != null 
+            && GameSession.Instance.CurrentRun.IsBattleAvailable(battleIndex))
         {
-            isLoading = true;
-            StartCoroutine(LoadBattleRoutine());
+            if (!isLoading && !SceneManager.GetSceneByName("Battle").isLoaded)
+            {
+                GameSession.Instance.CurrentRun.UpdateCurrentEncounter(battleIndex);
+                isLoading = true;
+                StartCoroutine(LoadBattleRoutine());
+            }
         }
     }
 
@@ -45,23 +50,25 @@ public class BattleSceneController : Singleton<BattleSceneController>
         yield return LoadBattleRoutine();
     }
 
-    public void ReturnToMap()
+    public void OpenRewards()
     {
         if (!isLoading && SceneManager.GetSceneByName("Battle").isLoaded)
         {
             isLoading = true;
-            StartCoroutine(ReturnToMapRoutine());
+            StartCoroutine(OpenRewardsRoutine());
         }
     }
 
-    private IEnumerator ReturnToMapRoutine()
+    private IEnumerator OpenRewardsRoutine()
     {
         Scene gameScene = SceneManager.GetSceneByName("Game");
         SceneManager.SetActiveScene(gameScene);
 
         yield return SceneManager.UnloadSceneAsync("Battle");
 
-        GameFlowSystem.Instance.ShowMap();
+        RewardSystem.Instance.SetupRewards();
+
+        GameFlowSystem.Instance.ShowRewards();
         isLoading = false;
     }
 }

@@ -70,7 +70,7 @@ public class BattleFlowSystem : Singleton<BattleFlowSystem>
         }
         else if (State == BattleState.VICTORY)
         {
-            BattleSceneController.Instance.ReturnToMap();
+            BattleSceneController.Instance.OpenRewards();
         }
     }
 }

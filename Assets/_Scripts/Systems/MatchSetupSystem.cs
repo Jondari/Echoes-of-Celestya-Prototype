@@ -12,9 +12,9 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
     {
         HeroData selectedHero = null;
         
-        if(GameSession.Instance != null)
+        if (GameSession.Instance != null && GameSession.Instance.CurrentRun != null)
         {
-            selectedHero = GameSession.Instance.SelectedHero;
+            selectedHero = GameSession.Instance.CurrentRun.SelectedHero;
         }
 
         if (selectedHero == null)
@@ -28,8 +28,15 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
             return;
         }
 
+        List<CardData> deck = selectedHero.Deck;
+
+        if (GameSession.Instance != null && GameSession.Instance.CurrentRun != null)
+        {
+            deck = GameSession.Instance.CurrentRun.CurrentDeck;
+        }
+
         HeroSystem.Instance.Setup(selectedHero);
-        CardSystem.Instance.Setup(selectedHero.Deck);
+        CardSystem.Instance.Setup(deck);
         EnemySystem.Instance.Setup(enemyDatas);
         PerkSystem.Instance.AddPerk(new Perk(perkData));
 

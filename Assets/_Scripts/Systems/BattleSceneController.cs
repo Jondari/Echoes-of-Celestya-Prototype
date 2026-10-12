@@ -23,6 +23,12 @@ public class BattleSceneController : Singleton<BattleSceneController>
     private IEnumerator LoadBattleRoutine()
     {
         GameFlowSystem.Instance.HideAllPanels();
+
+        if (MusicSystem.Instance != null)
+        {
+            MusicSystem.Instance.PlayDefaultMusic();
+        }
+
         yield return SceneManager.LoadSceneAsync(
             "Battle",
             LoadSceneMode.Additive

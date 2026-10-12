@@ -16,24 +16,44 @@ public class GameFlowSystem : Singleton<GameFlowSystem>
     {
         HideAllPanels();
         mainMenuPanel.SetActive(true);
+
+        if (MusicSystem.Instance != null)
+        {
+            MusicSystem.Instance.PlayDefaultMusic();
+        }
     }
 
     public void ShowHeroSelection()
     {
         HideAllPanels();
         heroSelectionPanel.SetActive(true);
+
+        if (MusicSystem.Instance != null)
+        {
+            MusicSystem.Instance.PlayDefaultMusic();
+        }
     }
 
     public void ShowMap()
     {
         HideAllPanels();
         mapPanel.SetActive(true);
+
+        if (MusicSystem.Instance != null)
+        {
+            MusicSystem.Instance.PlayMapMusic();
+        }
     }
 
     public void ShowRewards()
     {
         HideAllPanels();
         rewardPanel.SetActive(true);
+
+        if (MusicSystem.Instance != null)
+        {
+            MusicSystem.Instance.PlayMapMusic();
+        }
     }
 
     public void HideAllPanels() 

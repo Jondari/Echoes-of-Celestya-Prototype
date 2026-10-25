@@ -418,6 +418,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3ed4c7a78db40304eba2f1216ce906d7, type: 2}
   - {fileID: 11400000, guid: 9de33f72e1e4a5d45abb5908b17a435a, type: 2}
   standaloneEventSystem: {fileID: 904104211}
+  standaloneAudioListener: {fileID: 1317416699}
 --- !u!1 &203946957
 GameObject:
   m_ObjectHideFlags: 0
@@ -2139,7 +2140,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1317416696}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1317416700
 Camera:
   m_ObjectHideFlags: 0

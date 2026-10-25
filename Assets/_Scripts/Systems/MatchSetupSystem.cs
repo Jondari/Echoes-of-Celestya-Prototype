@@ -7,6 +7,7 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
     [SerializeField] private PerkData perkData;
     [SerializeField] private List<EnemyData> enemyDatas;
     [SerializeField] private GameObject standaloneEventSystem;
+    [SerializeField] private AudioListener standaloneAudioListener;
 
     public void SetupBattle()
     {
@@ -70,5 +71,26 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
             SetupBattle();
         }
     #endif        
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if (Instance != this)
+        {
+            return;
+        }
+
+        if (standaloneAudioListener == null)
+        {
+            Debug.LogWarning(
+                "No standalone AudioListener assigned for Battle.",
+                this
+            );
+            return;
+        }
+
+        standaloneAudioListener.enabled = MusicSystem.Instance == null;
     }
 }

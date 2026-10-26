@@ -8,10 +8,13 @@ public class RunState
     public int CurrentEncounter {  get; private set; }
     public bool[] BattleCompleted { get; private set; } = new bool[3];
 
-    public RunState(HeroData hero)
+    public EnergySettings EnergySettings { get; private set; }
+
+    public RunState(HeroData hero, EnergySettings energySettings)
     {
         SelectedHero = hero;
         CurrentDeck = new List<CardData>(hero.Deck);
+        EnergySettings = energySettings.Copy();
     }
 
     public void UpdateCurrentEncounter(int encounter)

@@ -36,18 +36,22 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
             deck = GameSession.Instance.CurrentRun.CurrentDeck;
         }
 
+        EnergySettings energySettings = new();
+
+        if (GameSession.Instance != null
+            && GameSession.Instance.CurrentRun != null)
+        {
+            energySettings = GameSession.Instance.CurrentRun.EnergySettings;
+        }
+
+        ManaSystem.Instance.Setup(energySettings);
         HeroSystem.Instance.Setup(selectedHero);
         CardSystem.Instance.Setup(deck);
         EnemySystem.Instance.Setup(enemyDatas);
         PerkSystem.Instance.AddPerk(new Perk(perkData));
 
-        RefillManaGA refillManaGA = new();
-
-        ActionSystem.Instance.Perform(refillManaGA, () =>
-        {
-            DrawCardsGA drawCardsGA = new(5);
-            ActionSystem.Instance.Perform(drawCardsGA);
-        });
+        DrawCardsGA drawCardsGA = new(5);
+        ActionSystem.Instance.Perform(drawCardsGA);
     }
 
     // Initialize Battle directly for standalone testing in the Editor.

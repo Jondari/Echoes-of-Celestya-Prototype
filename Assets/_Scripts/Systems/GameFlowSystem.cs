@@ -6,6 +6,7 @@ public class GameFlowSystem : Singleton<GameFlowSystem>
     [SerializeField] private GameObject heroSelectionPanel;
     [SerializeField] private GameObject mapPanel;
     [SerializeField] private GameObject rewardPanel;
+    [SerializeField] private GameObject optionsPanel;
 
     void Start()
     {
@@ -56,12 +57,24 @@ public class GameFlowSystem : Singleton<GameFlowSystem>
         }
     }
 
+    public void ShowOptions()
+    {
+        HideAllPanels();
+        optionsPanel.SetActive(true);
+
+        if (MusicSystem.Instance != null)
+        {
+            MusicSystem.Instance.PlayDefaultMusic();
+        }
+    }
+
     public void HideAllPanels() 
     {
         mainMenuPanel.SetActive(false);
         heroSelectionPanel.SetActive(false);
         mapPanel.SetActive(false);
         rewardPanel.SetActive(false);
+        optionsPanel.SetActive(false);
     }
 
     public void QuitGame()

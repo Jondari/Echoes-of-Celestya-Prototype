@@ -4,8 +4,8 @@ using UnityEngine;
 public class ManaSystem : Singleton<ManaSystem>
 {
     [SerializeField] private ManaUI manaUI;
-    private const int MAX_MANA = 3;
-    private int currentMana = MAX_MANA;
+    private EnergySettings settings = new();
+    private int currentMana;
 
     private void OnEnable()
     {
@@ -35,7 +35,23 @@ public class ManaSystem : Singleton<ManaSystem>
 
     private IEnumerator RefillManaPerformer(RefillManaGA refillManaGA)
     {
-        currentMana = MAX_MANA;
+        if (settings.CarryOver)
+        {
+            int availableSpace = settings.MaxEnergy - currentMana;
+
+            currentMana += Mathf.Min(
+                settings.EnergyPerTurn,
+                availableSpace
+            );
+        }
+        else
+        {
+            currentMana = Mathf.Min(
+                settings.EnergyPerTurn,
+                settings.MaxEnergy
+            );
+        }
+
         manaUI.UpdateManaText(currentMana);
         yield return null;
     }
@@ -44,5 +60,12 @@ public class ManaSystem : Singleton<ManaSystem>
     {
         RefillManaGA refillManaGA = new();
         ActionSystem.Instance.AddReaction(refillManaGA);
+    }
+
+    public void Setup(EnergySettings energySettings)
+    {
+        settings = energySettings.Copy();
+        currentMana = settings.InitialEnergy;
+        manaUI.UpdateManaText(currentMana);
     }
 }

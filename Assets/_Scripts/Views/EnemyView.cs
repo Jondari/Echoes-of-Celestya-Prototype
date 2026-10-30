@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class EnemyView : CombatantView
 {
-    [SerializeField] private TMP_Text attackText;
+    [SerializeField] private TMP_Text intentText;
+    [SerializeField] private SpriteRenderer intentIcon;
     public int AttackPower {  get; private set; }
     private EnemyData enemyData;
 
@@ -16,17 +17,36 @@ public class EnemyView : CombatantView
     {
         this.enemyData = enemyData;
         AttackPower = enemyData.AttackPower;
-        UpdateAttackText();
+        CurrentIntent = null;
+
         SetupBase(enemyData.Health, enemyData.Image);
+        UpdateIntentDisplay();
     }
 
-    private void UpdateAttackText()
+    private void UpdateIntentDisplay()
     {
-        attackText.text = AttackPower.ToString();
+        if (CurrentIntent == null)
+        {
+            intentIcon.sprite = null;
+            intentText.text = "";
+            return;
+        }
+
+        intentIcon.sprite = CurrentIntent.Icon;
+
+        string valueText = CurrentIntent.Type == EnemyIntentType.Attack
+            && CurrentIntent.HitCount > 1
+            ? $"{CurrentIntent.HitCount}x{CurrentIntent.Value}"
+            : CurrentIntent.Value.ToString();
+
+        intentText.text = CurrentIntent.Icon != null
+            ? valueText
+            : $"{CurrentIntent.Type}: {valueText}";
     }
 
     public void SetIntent(EnemyIntent intent)
     {
         CurrentIntent = intent;
+        UpdateIntentDisplay();
     }
 }

@@ -68,7 +68,7 @@ public class EnemySystem : Singleton<EnemySystem>
                 ApplyBurnGA applyBurnGA = new(burnStacks, enemy);
                 ActionSystem.Instance.AddReaction(applyBurnGA);
             }
-            AttackHeroGA attackHeroGA = new(enemy);
+            AttackHeroGA attackHeroGA = new(enemy, enemy.AttackPower, 1);
             ActionSystem.Instance.AddReaction(attackHeroGA);
         }
         Debug.Log("End Enemy Turn");
@@ -89,7 +89,7 @@ public class EnemySystem : Singleton<EnemySystem>
         yield return tween.WaitForCompletion();
         attacker.transform.DOMoveX(attacker.transform.position.x + 1f, 0.15f);
         // Deal Damage
-        DealDamageGA dealDamageGA = new(attacker.AttackPower, new() { HeroSystem.Instance.HeroView }, attackHeroGA.Caster);
+        DealDamageGA dealDamageGA = new(attackHeroGA.DamagePerHit, new() { HeroSystem.Instance.HeroView }, attackHeroGA.Caster);
         ActionSystem.Instance.AddReaction(dealDamageGA);
     }
 

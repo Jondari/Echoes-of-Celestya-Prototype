@@ -16,6 +16,7 @@ public class EnemySystem : Singleton<EnemySystem>
         ActionSystem.AttachPerformer<AttackHeroGA>(AttackHeroPerformer);
         ActionSystem.AttachPerformer<KillEnemyGA>(KillEnemyPerformer);
         ActionSystem.AttachPerformer<ExecuteEnemyIntentGA>(ExecuteEnemyIntentPerformer);
+        ActionSystem.AttachPerformer<PrepareEnemyIntentsGA>(PrepareEnemyIntentsPerformer);
     }
 
     private void OnDisable()
@@ -24,6 +25,7 @@ public class EnemySystem : Singleton<EnemySystem>
         ActionSystem.DetachPerformer<AttackHeroGA>();
         ActionSystem.DetachPerformer<KillEnemyGA>();
         ActionSystem.DetachPerformer<ExecuteEnemyIntentGA>();
+        ActionSystem.DetachPerformer<PrepareEnemyIntentsGA>();
     }
 
     public void Setup(List<EnemyData> enemyDatas)
@@ -61,7 +63,6 @@ public class EnemySystem : Singleton<EnemySystem>
 
     private IEnumerator EnemyTurnPerformer(EnemyTurnGA enemyTurnGA)
     {
-        Debug.Log("Enemy Turn");
         foreach (var enemy in enemyBoardView.EnemyViews)
         {
             int burnStacks = enemy.GetStatusEffectStacks(StatusEffectType.BURN);
@@ -74,7 +75,9 @@ public class EnemySystem : Singleton<EnemySystem>
             ExecuteEnemyIntentGA executeIntentGA = new(enemy, enemy.CurrentIntent);
             ActionSystem.Instance.AddReaction(executeIntentGA);
         }
-        Debug.Log("End Enemy Turn");
+        PrepareEnemyIntentsGA prepareIntentsGA = new();
+        ActionSystem.Instance.AddReaction(prepareIntentsGA);
+
         yield return null;
     }
 
@@ -173,6 +176,18 @@ public class EnemySystem : Singleton<EnemySystem>
                 Debug.LogError($"Intent type '{intent.Type}' is not implemented.", enemy);
                 break;
         }
+
+        yield return null;
+    }
+
+    private IEnumerator PrepareEnemyIntentsPerformer(PrepareEnemyIntentsGA prepareEnemyIntentsGA)
+    {
+        if (BattleFlowSystem.Instance.State != BattleState.PLAYING)
+        {
+            yield break;
+        }
+
+        PrepareIntents();
 
         yield return null;
     }

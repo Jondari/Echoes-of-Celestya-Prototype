@@ -21,3 +21,8 @@ MonoBehaviour:
     <FlatBonus>k__BackingField: 0
     <HitCount>k__BackingField: 1
     <ArmorValue>k__BackingField: 1
+  - <Definition>k__BackingField: {fileID: 11400000, guid: d00b25c279e62b34b816c5c7933cf2f7, type: 2}
+    <AttackMultiplier>k__BackingField: 1
+    <FlatBonus>k__BackingField: 0
+    <HitCount>k__BackingField: 1
+    <ArmorValue>k__BackingField: 2

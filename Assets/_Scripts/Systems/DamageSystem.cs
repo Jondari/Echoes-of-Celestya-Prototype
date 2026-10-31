@@ -20,8 +20,13 @@ public class DamageSystem : MonoBehaviour
 
         foreach (var target in dealDamageGA.Targets)
         {
+            if (BattleFlowSystem.Instance.State != BattleState.PLAYING)
+            {
+                yield break;
+            }
+
             // A queued action outlive one of its targets.
-            if (target == null)
+            if (target == null || target.CurrentHealth <= 0)
             {
                 continue;
             }

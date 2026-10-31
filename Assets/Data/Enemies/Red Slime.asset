@@ -15,3 +15,14 @@ MonoBehaviour:
   <Image>k__BackingField: {fileID: 21300000, guid: 3b74de30c20e6074c90cdc5d01b50a15, type: 3}
   <Health>k__BackingField: 26
   <AttackPower>k__BackingField: 6
+  intents:
+  - <Definition>k__BackingField: {fileID: 11400000, guid: d5b5e359fc5633b48871ae56b05dc639, type: 2}
+    <AttackMultiplier>k__BackingField: 1
+    <FlatBonus>k__BackingField: 0
+    <HitCount>k__BackingField: 1
+    <ArmorValue>k__BackingField: 1
+  - <Definition>k__BackingField: {fileID: 11400000, guid: d5b5e359fc5633b48871ae56b05dc639, type: 2}
+    <AttackMultiplier>k__BackingField: 1.1
+    <FlatBonus>k__BackingField: 0
+    <HitCount>k__BackingField: 2
+    <ArmorValue>k__BackingField: 1

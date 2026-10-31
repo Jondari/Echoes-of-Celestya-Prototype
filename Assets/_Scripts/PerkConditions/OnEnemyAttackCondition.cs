@@ -5,8 +5,17 @@ public class OnEnemyAttackCondition : PerkCondition
 {
     public override bool SubConditionIsMet(GameAction gameAction)
     {
-        // the condition is met because we want to react to all attacker.
-        return true;
+        if (gameAction is not AttackHeroGA attackHeroGA)
+        {
+            return false;
+        }
+
+        return attackHeroGA.HasExecuted
+            && attackHeroGA.Attacker != null
+            && attackHeroGA.Attacker.CurrentHealth > 0
+            && HeroSystem.Instance.HeroView != null
+            && HeroSystem.Instance.HeroView.CurrentHealth > 0
+            && BattleFlowSystem.Instance.State == BattleState.PLAYING;
     }
 
     public override void SubscribeCondition(Action<GameAction> reaction)

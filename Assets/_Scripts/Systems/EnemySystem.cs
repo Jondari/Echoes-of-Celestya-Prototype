@@ -15,6 +15,7 @@ public class EnemySystem : Singleton<EnemySystem>
         ActionSystem.AttachPerformer<EnemyTurnGA>(EnemyTurnPerformer);
         ActionSystem.AttachPerformer<AttackHeroGA>(AttackHeroPerformer);
         ActionSystem.AttachPerformer<KillEnemyGA>(KillEnemyPerformer);
+        ActionSystem.AttachPerformer<ExecuteEnemyIntentGA>(ExecuteEnemyIntentPerformer);
     }
 
     private void OnDisable()
@@ -22,6 +23,7 @@ public class EnemySystem : Singleton<EnemySystem>
         ActionSystem.DetachPerformer<EnemyTurnGA>();
         ActionSystem.DetachPerformer<AttackHeroGA>();
         ActionSystem.DetachPerformer<KillEnemyGA>();
+        ActionSystem.DetachPerformer<ExecuteEnemyIntentGA>();
     }
 
     public void Setup(List<EnemyData> enemyDatas)
@@ -68,8 +70,9 @@ public class EnemySystem : Singleton<EnemySystem>
                 ApplyBurnGA applyBurnGA = new(burnStacks, enemy);
                 ActionSystem.Instance.AddReaction(applyBurnGA);
             }
-            AttackHeroGA attackHeroGA = new(enemy, enemy.AttackPower, 1);
-            ActionSystem.Instance.AddReaction(attackHeroGA);
+
+            ExecuteEnemyIntentGA executeIntentGA = new(enemy, enemy.CurrentIntent);
+            ActionSystem.Instance.AddReaction(executeIntentGA);
         }
         Debug.Log("End Enemy Turn");
         yield return null;
@@ -78,19 +81,53 @@ public class EnemySystem : Singleton<EnemySystem>
     private IEnumerator AttackHeroPerformer(AttackHeroGA attackHeroGA)
     {
         EnemyView attacker = attackHeroGA.Attacker;
+        HeroView hero = HeroSystem.Instance.HeroView;
 
-        if (attacker == null || attacker.CurrentHealth <= 0)
+        if (attacker == null
+        || attacker.CurrentHealth <= 0
+        || hero == null
+        || hero.CurrentHealth <= 0
+        || BattleFlowSystem.Instance.State != BattleState.PLAYING)
         {
             yield break;
         }
 
-        // Attack animation (this is a simple example)
-        Tween tween = attacker.transform.DOMoveX(attacker.transform.position.x - 1f, 0.15f);
+        float startX = attacker.transform.position.x;
+
+        Tween tween = attacker.transform
+            .DOMoveX(startX - 1f, 0.15f)
+            .SetLink(attacker.gameObject, LinkBehaviour.KillOnDestroy);
+
         yield return tween.WaitForCompletion();
-        attacker.transform.DOMoveX(attacker.transform.position.x + 1f, 0.15f);
-        // Deal Damage
-        DealDamageGA dealDamageGA = new(attackHeroGA.DamagePerHit, new() { HeroSystem.Instance.HeroView }, attackHeroGA.Caster);
-        ActionSystem.Instance.AddReaction(dealDamageGA);
+
+        if (attacker == null)
+        {
+            yield break;
+        }
+
+        attacker.transform
+            .DOMoveX(startX, 0.15f)
+            .SetLink(attacker.gameObject, LinkBehaviour.KillOnDestroy);
+
+        if (attacker.CurrentHealth <= 0
+            || hero == null
+            || hero.CurrentHealth <= 0
+            || BattleFlowSystem.Instance.State != BattleState.PLAYING)
+        {
+            yield break;
+        }
+
+        attackHeroGA.MarkExecuted();
+
+        for (int i = 0; i < attackHeroGA.HitCount; i++)
+        {
+            DealDamageGA dealDamageGA = new(
+                attackHeroGA.DamagePerHit,
+                new() { hero },
+                attackHeroGA.Caster);
+
+            ActionSystem.Instance.AddReaction(dealDamageGA);
+        }
     }
 
     private IEnumerator KillEnemyPerformer(KillEnemyGA killEnemyGA)
@@ -100,6 +137,44 @@ public class EnemySystem : Singleton<EnemySystem>
         {
             BattleFlowSystem.Instance.Victory();
         }
+    }
+
+    private IEnumerator ExecuteEnemyIntentPerformer(ExecuteEnemyIntentGA executeIntentGA)
+    {
+        EnemyView enemy = executeIntentGA.Enemy;
+        EnemyIntent intent = executeIntentGA.Intent;
+
+        if (enemy == null
+            || enemy.CurrentHealth <= 0
+            || BattleFlowSystem.Instance.State != BattleState.PLAYING)
+        {
+            yield break;
+        }
+
+        if (intent == null)
+        {
+            Debug.LogError($"Enemy '{enemy.name}' has no prepared intent.", enemy);
+            yield break;
+        }
+
+        switch (intent.Type)
+        {
+            case EnemyIntentType.Attack:
+                AttackHeroGA attackHeroGA = new(enemy, intent.Value, intent.HitCount);
+                ActionSystem.Instance.AddReaction(attackHeroGA);
+                break;
+
+            case EnemyIntentType.Defense:
+                AddStatusEffectGA armorGA = new(StatusEffectType.ARMOR, intent.Value, new() { enemy });
+                ActionSystem.Instance.AddReaction(armorGA);
+                break;
+
+            default:
+                Debug.LogError($"Intent type '{intent.Type}' is not implemented.", enemy);
+                break;
+        }
+
+        yield return null;
     }
 
     private bool IsOptionValid(EnemyIntentOption option)

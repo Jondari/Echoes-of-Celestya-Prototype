@@ -284,8 +284,10 @@ public class EnemySystem : Singleton<EnemySystem>
         switch (definition.Type)
         {
             case EnemyIntentType.Attack:
+                int attackPower = Mathf.Max(0,enemy.AttackPower + enemy.GetAttackBonus());
+
                 int damage = Mathf.Max(1, Mathf.RoundToInt(
-                    enemy.AttackPower * selectedOption.AttackMultiplier
+                    attackPower * selectedOption.AttackMultiplier
                     + selectedOption.FlatBonus));
 
                 return new EnemyIntent(

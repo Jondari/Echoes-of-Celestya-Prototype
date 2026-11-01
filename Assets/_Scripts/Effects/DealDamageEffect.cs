@@ -8,7 +8,13 @@ public class DealDamageEffect : Effect
 
     public override GameAction GetGameAction(List<CombatantView> targets, CombatantView caster)
     {
-        DealDamageGA dealDamageGA = new(damageAmount, targets, caster);
+        int attackBonus = caster != null
+        ? caster.GetAttackBonus()
+        : 0;
+
+        int amount = Mathf.Max(0, damageAmount + attackBonus);
+
+        DealDamageGA dealDamageGA = new(amount, targets, caster);
         return dealDamageGA;
     }
 }

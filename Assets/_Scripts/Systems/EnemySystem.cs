@@ -10,6 +10,9 @@ public class EnemySystem : Singleton<EnemySystem>
     private readonly System.Random random = new();
     [SerializeField] private EnemyIntentData waitIntent;
 
+    // Only buffs active at the start of the enemy turn lose a stack.
+    private readonly List<EnemyView> buffedEnemiesAtTurnStart = new();
+
 
     private void OnEnable()
     {
@@ -31,6 +34,8 @@ public class EnemySystem : Singleton<EnemySystem>
 
     public void Setup(List<EnemyData> enemyDatas)
     {
+        buffedEnemiesAtTurnStart.Clear();
+
         foreach (EnemyData enemyData in enemyDatas)
         {
             enemyBoardView.AddEnemy(enemyData);
@@ -64,8 +69,20 @@ public class EnemySystem : Singleton<EnemySystem>
 
     private IEnumerator EnemyTurnPerformer(EnemyTurnGA enemyTurnGA)
     {
-        foreach (var enemy in enemyBoardView.EnemyViews)
+        buffedEnemiesAtTurnStart.Clear();
+
+        foreach (EnemyView enemy in Enemies)
         {
+            if (enemy == null || enemy.CurrentHealth <= 0)
+            {
+                continue;
+            }
+
+            if (enemy.GetStatusEffectStacks(StatusEffectType.ATTACK_BUFF) > 0)
+            {
+                buffedEnemiesAtTurnStart.Add(enemy);
+            }
+
             int burnStacks = enemy.GetStatusEffectStacks(StatusEffectType.BURN);
             if (burnStacks > 0)
             {
@@ -208,8 +225,21 @@ public class EnemySystem : Singleton<EnemySystem>
     {
         if (BattleFlowSystem.Instance.State != BattleState.PLAYING)
         {
+            buffedEnemiesAtTurnStart.Clear();
             yield break;
         }
+
+        foreach (EnemyView enemy in buffedEnemiesAtTurnStart)
+        {
+            if (enemy == null || enemy.CurrentHealth <= 0)
+            {
+                continue;
+            }
+
+            enemy.RemoveStatusEffect(StatusEffectType.ATTACK_BUFF, 1);
+        }
+
+        buffedEnemiesAtTurnStart.Clear();
 
         PrepareIntents();
 

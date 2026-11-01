@@ -28,6 +28,15 @@ public class HeroSystem : Singleton<HeroSystem>
 
     private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
     {
+        if (BattleFlowSystem.Instance.State != BattleState.PLAYING
+        || HeroView == null
+        || HeroView.CurrentHealth <= 0)
+        {
+            return;
+        }
+
+        HeroView.RemoveStatusEffect(StatusEffectType.ATTACK_DEBUFF, 1);
+
         DiscardAllCardsGA discardAllCardsGA = new();
         ActionSystem.Instance.AddReaction(discardAllCardsGA);
     }

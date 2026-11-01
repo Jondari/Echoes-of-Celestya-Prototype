@@ -41,14 +41,32 @@ public class EnemyView : CombatantView
 
         intentIcon.sprite = CurrentIntent.Icon;
 
-        string valueText = CurrentIntent.Type == EnemyIntentType.Attack
-            && CurrentIntent.HitCount > 1
-            ? $"{CurrentIntent.HitCount}x{CurrentIntent.Value}"
-            : CurrentIntent.Value.ToString();
+        string valueText;
 
-        if (CurrentIntent.Type == EnemyIntentType.Heal)
+        switch (CurrentIntent.Type)
         {
-            valueText += $" {CurrentIntent.TargetMode}";
+            case EnemyIntentType.Attack:
+                valueText = CurrentIntent.HitCount > 1
+                    ? $"{CurrentIntent.HitCount}x{CurrentIntent.Value}"
+                    : CurrentIntent.Value.ToString();
+                break;
+
+            case EnemyIntentType.Heal:
+                valueText = $"{CurrentIntent.Value} {CurrentIntent.TargetMode}";
+                break;
+
+            case EnemyIntentType.Buff:
+                valueText =
+                    $"+2 · {CurrentIntent.Value}t · {CurrentIntent.TargetMode}";
+                break;
+
+            case EnemyIntentType.Debuff:
+                valueText = $"-2 · {CurrentIntent.Value}t";
+                break;
+
+            default:
+                valueText = CurrentIntent.Value.ToString();
+                break;
         }
 
         intentText.text = CurrentIntent.Icon != null

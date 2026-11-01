@@ -178,6 +178,21 @@ public class EnemySystem : Singleton<EnemySystem>
                 ActionSystem.Instance.AddReaction(healGA);
                 break;
 
+            case EnemyIntentType.Buff:
+            case EnemyIntentType.Debuff:
+                StatusEffectType statusType =
+                    intent.Type == EnemyIntentType.Buff
+                        ? StatusEffectType.ATTACK_BUFF
+                        : StatusEffectType.ATTACK_DEBUFF;
+
+                AddStatusEffectGA statusGA = new(
+                    statusType,
+                    intent.Value,
+                    new List<CombatantView>(intent.Targets));
+
+                ActionSystem.Instance.AddReaction(statusGA);
+                break;
+
             case EnemyIntentType.Wait:
                 break;
 
@@ -225,6 +240,16 @@ public class EnemySystem : Singleton<EnemySystem>
                         || option.Target == EnemyIntentTarget.OtherAlly
                         || option.Target == EnemyIntentTarget.AllAllies);
 
+            case EnemyIntentType.Buff:
+                return option.StatusStacks >= 1
+                    && (option.Target == EnemyIntentTarget.Self
+                        || option.Target == EnemyIntentTarget.OtherAlly
+                        || option.Target == EnemyIntentTarget.AllAllies);
+
+            case EnemyIntentType.Debuff:
+                return option.StatusStacks >= 1
+                    && option.Target == EnemyIntentTarget.Hero;
+
             default:
                 return false;
         }
@@ -232,12 +257,21 @@ public class EnemySystem : Singleton<EnemySystem>
 
     private bool CanUseOption(EnemyView enemy, EnemyIntentOption option)
     {
-        if (option.Definition.Type == EnemyIntentType.Heal)
+        switch (option.Definition.Type)
         {
-            return GetHealTargets(enemy, option.Target).Count > 0;
-        }
+            case EnemyIntentType.Heal:
+                return GetHealTargets(enemy, option.Target).Count > 0;
 
-        return true;
+            case EnemyIntentType.Buff:
+                return GetBuffCandidates(enemy, option.Target).Count > 0;
+
+            case EnemyIntentType.Debuff:
+                return HeroSystem.Instance.HeroView != null
+                    && HeroSystem.Instance.HeroView.CurrentHealth > 0;
+
+            default:
+                return true;
+        }
     }
 
     private EnemyIntent ChooseIntent(EnemyView enemy)
@@ -314,6 +348,33 @@ public class EnemySystem : Singleton<EnemySystem>
                     1,
                     selectedOption.Target,
                     targets);
+
+            case EnemyIntentType.Buff:
+                List<CombatantView> buffTargets = GetBuffCandidates(enemy, selectedOption.Target);
+
+                if (selectedOption.Target == EnemyIntentTarget.OtherAlly)
+                {
+                    CombatantView selectedAlly = buffTargets[random.Next(buffTargets.Count)];
+
+                    buffTargets = new() { selectedAlly };
+                }
+
+                return new EnemyIntent(
+                    definition.Type,
+                    definition.Icon,
+                    selectedOption.StatusStacks,
+                    1,
+                    selectedOption.Target,
+                    buffTargets);
+
+            case EnemyIntentType.Debuff:
+                return new EnemyIntent(
+                    definition.Type,
+                    definition.Icon,
+                    selectedOption.StatusStacks,
+                    1,
+                    EnemyIntentTarget.Hero,
+                    new() { HeroSystem.Instance.HeroView });
 
             default:
                 throw new System.InvalidOperationException(
@@ -404,5 +465,43 @@ public class EnemySystem : Singleton<EnemySystem>
         }
 
         return targets;
+    }
+
+    private List<CombatantView> GetBuffCandidates(EnemyView caster, EnemyIntentTarget targetMode)
+    {
+        List<CombatantView> candidates = new();
+
+        if (targetMode == EnemyIntentTarget.Self)
+        {
+            if (caster != null && caster.CurrentHealth > 0)
+            {
+                candidates.Add(caster);
+            }
+
+            return candidates;
+        }
+
+        if (targetMode != EnemyIntentTarget.OtherAlly
+            && targetMode != EnemyIntentTarget.AllAllies)
+        {
+            return candidates;
+        }
+
+        foreach (EnemyView ally in Enemies)
+        {
+            if (ally == null || ally.CurrentHealth <= 0)
+            {
+                continue;
+            }
+
+            if (targetMode == EnemyIntentTarget.OtherAlly && ally == caster)
+            {
+                continue;
+            }
+
+            candidates.Add(ally);
+        }
+
+        return candidates;
     }
 }

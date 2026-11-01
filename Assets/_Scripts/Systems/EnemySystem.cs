@@ -172,6 +172,14 @@ public class EnemySystem : Singleton<EnemySystem>
                 ActionSystem.Instance.AddReaction(armorGA);
                 break;
 
+            case EnemyIntentType.Heal:
+                HealGA healGA = new(intent.Value, intent.Targets, enemy);
+                ActionSystem.Instance.AddReaction(healGA);
+                break;
+
+            case EnemyIntentType.Wait:
+                break;
+
             default:
                 Debug.LogError($"Intent type '{intent.Type}' is not implemented.", enemy);
                 break;
@@ -210,57 +218,100 @@ public class EnemySystem : Singleton<EnemySystem>
             case EnemyIntentType.Defense:
                 return option.ArmorValue >= 1;
 
+            case EnemyIntentType.Heal:
+                return option.HealAmount >= 1
+                    && (option.Target == EnemyIntentTarget.Self
+                        || option.Target == EnemyIntentTarget.OtherAlly
+                        || option.Target == EnemyIntentTarget.AllAllies);
+
             default:
                 return false;
         }
     }
 
+    private bool CanUseOption(EnemyView enemy, EnemyIntentOption option)
+    {
+        if (option.Definition.Type == EnemyIntentType.Heal)
+        {
+            return GetHealTargets(enemy, option.Target).Count > 0;
+        }
+
+        return true;
+    }
+
     private EnemyIntent ChooseIntent(EnemyView enemy)
     {
-        List<EnemyIntentOption> validOptions = new();
+        List<EnemyIntentOption> availableOptions = new();
+        bool hasValidOption = false;
 
         foreach (EnemyIntentOption option in enemy.Intents)
         {
-            if (IsOptionValid(option))
+            if (!IsOptionValid(option))
             {
-                validOptions.Add(option);
+                continue;
+            }
+
+            hasValidOption = true;
+
+            if (CanUseOption(enemy, option))
+            {
+                availableOptions.Add(option);
             }
         }
 
-        if (validOptions.Count == 0)
+        if (!hasValidOption)
         {
             throw new System.InvalidOperationException(
                 $"Enemy '{enemy.name}' has no valid intent. " +
-                "Configure at least one Attack or Defense option in EnemyData.");
+                "Configure at least one supported option in EnemyData.");
+        }
+
+        if (availableOptions.Count == 0)
+        {
+            return new EnemyIntent(EnemyIntentType.Wait, null, 0, 1);
         }
 
         EnemyIntentOption selectedOption =
-            validOptions[random.Next(validOptions.Count)];
+            availableOptions[random.Next(availableOptions.Count)];
 
         EnemyIntentData definition = selectedOption.Definition;
 
-        int value;
-        int hitCount;
-
-        if (definition.Type == EnemyIntentType.Attack)
+        switch (definition.Type)
         {
-            value = Mathf.Max(1, Mathf.RoundToInt(
-                enemy.AttackPower * selectedOption.AttackMultiplier
-                + selectedOption.FlatBonus));
+            case EnemyIntentType.Attack:
+                int damage = Mathf.Max(1, Mathf.RoundToInt(
+                    enemy.AttackPower * selectedOption.AttackMultiplier
+                    + selectedOption.FlatBonus));
 
-            hitCount = selectedOption.HitCount;
-        }
-        else
-        {
-            value = selectedOption.ArmorValue;
-            hitCount = 1;
-        }
+                return new EnemyIntent(
+                    definition.Type,
+                    definition.Icon,
+                    damage,
+                    selectedOption.HitCount);
 
-        return new EnemyIntent(
-            definition.Type,
-            definition.Icon,
-            value,
-            hitCount);
+            case EnemyIntentType.Defense:
+                return new EnemyIntent(
+                    definition.Type,
+                    definition.Icon,
+                    selectedOption.ArmorValue,
+                    1);
+
+            case EnemyIntentType.Heal:
+                List<CombatantView> targets =
+                    GetHealTargets(enemy, selectedOption.Target);
+
+                return new EnemyIntent(
+                    definition.Type,
+                    definition.Icon,
+                    selectedOption.HealAmount,
+                    1,
+                    selectedOption.Target,
+                    targets);
+
+            default:
+                throw new System.InvalidOperationException(
+                    $"Intent type '{definition.Type}' is not implemented.");
+        }
     }
 
     private void PrepareIntents()
@@ -274,5 +325,77 @@ public class EnemySystem : Singleton<EnemySystem>
 
             enemy.SetIntent(ChooseIntent(enemy));
         }
+    }
+
+    private List<CombatantView> GetHealTargets(EnemyView caster, EnemyIntentTarget targetMode)
+    {
+        List<CombatantView> targets = new();
+
+        switch (targetMode)
+        {
+            case EnemyIntentTarget.Self:
+                if (caster.CurrentHealth > 0
+                    && caster.CurrentHealth < caster.MaxHealth)
+                {
+                    targets.Add(caster);
+                }
+                break;
+
+            case EnemyIntentTarget.OtherAlly:
+                EnemyView selectedAlly = null;
+                float lowestHealthRatio = 1f;
+
+                foreach (EnemyView ally in Enemies)
+                {
+                    if (ally == null
+                        || ally == caster
+                        || ally.CurrentHealth <= 0
+                        || ally.CurrentHealth >= ally.MaxHealth)
+                    {
+                        continue;
+                    }
+
+                    float healthRatio =
+                        (float)ally.CurrentHealth / ally.MaxHealth;
+
+                    if (healthRatio < lowestHealthRatio)
+                    {
+                        lowestHealthRatio = healthRatio;
+                        selectedAlly = ally;
+                    }
+                }
+
+                if (selectedAlly != null)
+                {
+                    targets.Add(selectedAlly);
+                }
+                break;
+
+            case EnemyIntentTarget.AllAllies:
+                bool hasWoundedAlly = false;
+
+                foreach (EnemyView ally in Enemies)
+                {
+                    if (ally == null || ally.CurrentHealth <= 0)
+                    {
+                        continue;
+                    }
+
+                    targets.Add(ally);
+
+                    if (ally.CurrentHealth < ally.MaxHealth)
+                    {
+                        hasWoundedAlly = true;
+                    }
+                }
+
+                if (!hasWoundedAlly)
+                {
+                    targets.Clear();
+                }
+                break;
+        }
+
+        return targets;
     }
 }

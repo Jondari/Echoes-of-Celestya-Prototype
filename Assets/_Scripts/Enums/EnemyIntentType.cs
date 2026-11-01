@@ -7,5 +7,6 @@ public enum EnemyIntentType
     Debuff,
     Charge,
     Freeze,
-    Summon
+    Summon,
+    Wait
 }

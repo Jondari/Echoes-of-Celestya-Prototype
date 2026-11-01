@@ -32,12 +32,24 @@ public class EnemyView : CombatantView
             return;
         }
 
+        if (CurrentIntent.Type == EnemyIntentType.Wait)
+        {
+            intentIcon.sprite = null;
+            intentText.text = "Wait";
+            return;
+        }
+
         intentIcon.sprite = CurrentIntent.Icon;
 
         string valueText = CurrentIntent.Type == EnemyIntentType.Attack
             && CurrentIntent.HitCount > 1
             ? $"{CurrentIntent.HitCount}x{CurrentIntent.Value}"
             : CurrentIntent.Value.ToString();
+
+        if (CurrentIntent.Type == EnemyIntentType.Heal)
+        {
+            valueText += $" {CurrentIntent.TargetMode}";
+        }
 
         intentText.text = CurrentIntent.Icon != null
             ? valueText

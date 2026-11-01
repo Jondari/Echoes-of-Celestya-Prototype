@@ -87,4 +87,16 @@ public class CombatantView : MonoBehaviour
         else
             return 0;
     }
+
+    public void Heal(int amount)
+    {
+        if (CurrentHealth <= 0 || amount <= 0)
+        {
+            return;
+        }
+
+        int recoveredHealth = Mathf.Min(amount, MaxHealth - CurrentHealth);
+        CurrentHealth += recoveredHealth;
+        UpdateHealthText();
+    }
 }

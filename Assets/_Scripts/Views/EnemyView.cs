@@ -34,8 +34,8 @@ public class EnemyView : CombatantView
 
         if (CurrentIntent.Type == EnemyIntentType.Wait)
         {
-            intentIcon.sprite = null;
-            intentText.text = "Wait";
+            intentIcon.sprite = CurrentIntent.Icon;
+            intentText.text = CurrentIntent.Icon != null ? "" : "Wait";
             return;
         }
 

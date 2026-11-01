@@ -3106,6 +3106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySystem
   enemyBoardView: {fileID: 997538804}
+  waitIntent: {fileID: 11400000, guid: 395a2dbb33b7768479e95a434260230e, type: 2}
 --- !u!1 &1839584593
 GameObject:
   m_ObjectHideFlags: 0

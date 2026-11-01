@@ -8,6 +8,7 @@ public class EnemySystem : Singleton<EnemySystem>
     [SerializeField] private EnemyBoardView enemyBoardView;
     public List<EnemyView> Enemies => enemyBoardView.EnemyViews;
     private readonly System.Random random = new();
+    [SerializeField] private EnemyIntentData waitIntent;
 
 
     private void OnEnable()
@@ -268,7 +269,11 @@ public class EnemySystem : Singleton<EnemySystem>
 
         if (availableOptions.Count == 0)
         {
-            return new EnemyIntent(EnemyIntentType.Wait, null, 0, 1);
+            return new EnemyIntent(
+                EnemyIntentType.Wait,
+                waitIntent != null ? waitIntent.Icon : null,
+                0,
+                1);
         }
 
         EnemyIntentOption selectedOption =

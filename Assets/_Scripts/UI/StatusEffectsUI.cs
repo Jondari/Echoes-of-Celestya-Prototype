@@ -4,7 +4,7 @@ using UnityEngine;
 public class StatusEffectsUI : MonoBehaviour
 {
     [SerializeField] private StatusEffectUI statusEffectUIPrefab;
-    [SerializeField] private Sprite armorSprite, burnSprite;
+    [SerializeField] private Sprite armorSprite, burnSprite, attackBuffSprite, attackDebuffSprite;
     private Dictionary<StatusEffectType, StatusEffectUI> statusEffectUIs = new();
 
     public void UpdateStatusEffectUI(StatusEffectType statusEffectType, int stackCount)
@@ -38,6 +38,8 @@ public class StatusEffectsUI : MonoBehaviour
         {
             StatusEffectType.ARMOR => armorSprite,
             StatusEffectType.BURN => burnSprite,
+            StatusEffectType.ATTACK_BUFF => attackBuffSprite,
+            StatusEffectType.ATTACK_DEBUFF => attackDebuffSprite,
             _ => null,
         };
     }

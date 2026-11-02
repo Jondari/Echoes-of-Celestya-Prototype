@@ -87,4 +87,31 @@ public class CombatantView : MonoBehaviour
         else
             return 0;
     }
+
+    public void Heal(int amount)
+    {
+        if (CurrentHealth <= 0 || amount <= 0)
+        {
+            return;
+        }
+
+        int recoveredHealth = Mathf.Min(amount, MaxHealth - CurrentHealth);
+        CurrentHealth += recoveredHealth;
+        UpdateHealthText();
+    }
+
+    /// <summary>
+    /// Returns the fixed attack modifier from active statuses.
+    /// Stacks determine duration, not strength.
+    /// </summary>
+    public int GetAttackBonus()
+    {
+        int bonus = GetStatusEffectStacks(StatusEffectType.ATTACK_BUFF) > 0
+            ? 2 : 0;
+
+        int penalty = GetStatusEffectStacks(StatusEffectType.ATTACK_DEBUFF) > 0
+            ? 2 : 0;
+
+        return bonus - penalty;
+    }
 }

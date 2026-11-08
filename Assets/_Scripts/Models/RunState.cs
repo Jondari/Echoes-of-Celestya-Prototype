@@ -9,12 +9,14 @@ public class RunState
     public bool[] BattleCompleted { get; private set; } = new bool[3];
 
     public EnergySettings EnergySettings { get; private set; }
+    public bool CounterAttackEnabled { get; private set; }
 
-    public RunState(HeroData hero, EnergySettings energySettings)
+    public RunState(HeroData hero, EnergySettings energySettings, bool counterAttackEnabled)
     {
         SelectedHero = hero;
         CurrentDeck = new List<CardData>(hero.Deck);
         EnergySettings = energySettings.Copy();
+        CounterAttackEnabled = counterAttackEnabled;
     }
 
     public void UpdateCurrentEncounter(int encounter)

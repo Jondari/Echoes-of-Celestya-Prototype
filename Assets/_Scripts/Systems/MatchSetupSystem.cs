@@ -8,6 +8,8 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
     [SerializeField] private List<EnemyData> enemyDatas;
     [SerializeField] private GameObject standaloneEventSystem;
     [SerializeField] private AudioListener standaloneAudioListener;
+    [SerializeField] private bool standaloneCounterAttackEnabled = true;
+
 
     public void SetupBattle()
     {
@@ -48,7 +50,29 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
         HeroSystem.Instance.Setup(selectedHero);
         CardSystem.Instance.Setup(deck);
         EnemySystem.Instance.Setup(enemyDatas);
-        PerkSystem.Instance.AddPerk(new Perk(perkData));
+
+        bool counterAttackEnabled = standaloneCounterAttackEnabled;
+
+        if (GameSession.Instance != null)
+        {
+            counterAttackEnabled =
+                GameSession.Instance.CurrentRun != null
+                && GameSession.Instance.CurrentRun.CounterAttackEnabled;
+        }
+
+        if (counterAttackEnabled)
+        {
+            if (perkData != null)
+            {
+                PerkSystem.Instance.AddPerk(new Perk(perkData));
+            }
+            else
+            {
+                Debug.LogWarning(
+                    "Counterattack is enabled, but no perk data is assigned.",
+                    this);
+            }
+        }
 
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.Perform(drawCardsGA);

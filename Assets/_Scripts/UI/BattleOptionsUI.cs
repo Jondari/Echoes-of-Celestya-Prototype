@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
 
-public class EnergyOptionsUI : MonoBehaviour
+public class BattleOptionsUI : MonoBehaviour
 {
     [SerializeField] private TMP_InputField initialEnergyInput;
     [SerializeField] private TMP_InputField energyPerTurnInput;
     [SerializeField] private TMP_InputField maxEnergyInput;
     [SerializeField] private UnityEngine.UI.Toggle carryOverToggle;
+    [SerializeField] private UnityEngine.UI.Toggle counterAttackToggle;
     [SerializeField] private TMP_Text errorText;
 
     private void OnEnable()
@@ -28,6 +29,8 @@ public class EnergyOptionsUI : MonoBehaviour
         energyPerTurnInput.text = settings.EnergyPerTurn.ToString();
         maxEnergyInput.text = settings.MaxEnergy.ToString();
         carryOverToggle.isOn = settings.CarryOver;
+
+        counterAttackToggle.SetIsOnWithoutNotify(GameSession.Instance.CounterAttackEnabled);
     }
 
     public void ApplySettings()
@@ -78,6 +81,7 @@ public class EnergyOptionsUI : MonoBehaviour
         };
 
         GameSession.Instance.ApplyEnergySettings(settings);
+        GameSession.Instance.SetCounterAttackEnabled(counterAttackToggle.isOn);
         GameFlowSystem.Instance.ShowMainMenu();
     }
 }

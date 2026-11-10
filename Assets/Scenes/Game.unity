@@ -1949,6 +1949,7 @@ Transform:
   - {fileID: 424383819}
   - {fileID: 1424314136}
   - {fileID: 1337173235}
+  - {fileID: 1528726646}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &295453306
@@ -8345,6 +8346,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511284472}
   m_CullTransparentMesh: 1
+--- !u!1 &1528726645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1528726646}
+  - component: {fileID: 1528726647}
+  m_Layer: 0
+  m_Name: EncounterSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1528726646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528726645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 263288205}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1528726647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528726645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e2bd3ebed953a4f933c6541814767b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EncounterSystem
+  enemyPool:
+  - {fileID: 11400000, guid: edf6dc8e7dffc8e47bec29f7539814e5, type: 2}
+  - {fileID: 11400000, guid: 30aaba5d262ee1841a34b5204e5d54d9, type: 2}
+  - {fileID: 11400000, guid: 3c000d0bcb7a2e74a865b423c4df4a44, type: 2}
+  - {fileID: 11400000, guid: 4da68be2134869642bf616f7e1798cd1, type: 2}
+  - {fileID: 11400000, guid: 3d4d4f3470794cf4b90388f1d9c0fc3c, type: 2}
+  - {fileID: 11400000, guid: 3bc827f4c52cb86438b280f88afb7c92, type: 2}
+  minEnemies: 1
+  maxEnemies: 3
 --- !u!1 &1556225215
 GameObject:
   m_ObjectHideFlags: 0

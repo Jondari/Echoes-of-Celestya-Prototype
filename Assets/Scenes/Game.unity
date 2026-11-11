@@ -482,9 +482,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 424383820}
-        m_TargetAssemblyTypeName: BattleSceneController, Assembly-CSharp
-        m_MethodName: LoadBattle
+      - m_Target: {fileID: 1345525137}
+        m_TargetAssemblyTypeName: PlayerPawnUI, Assembly-CSharp
+        m_MethodName: MoveToBattle
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1512,9 +1512,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 424383820}
-        m_TargetAssemblyTypeName: BattleSceneController, Assembly-CSharp
-        m_MethodName: LoadBattle
+      - m_Target: {fileID: 1345525137}
+        m_TargetAssemblyTypeName: PlayerPawnUI, Assembly-CSharp
+        m_MethodName: MoveToBattle
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11694,9 +11694,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 424383820}
-        m_TargetAssemblyTypeName: BattleSceneController, Assembly-CSharp
-        m_MethodName: LoadBattle
+      - m_Target: {fileID: 1345525137}
+        m_TargetAssemblyTypeName: PlayerPawnUI, Assembly-CSharp
+        m_MethodName: MoveToBattle
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

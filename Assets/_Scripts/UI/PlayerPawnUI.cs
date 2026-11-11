@@ -13,6 +13,8 @@ public class PlayerPawnUI : MonoBehaviour
 
     [SerializeField] private CanvasGroup mapCanvasGroup;
     [SerializeField, Min(0f)] private float moveDuration = 0.5f;
+    [SerializeField] private bool showPawn = true;
+    [SerializeField] private bool animateMovement = true;
     private bool isMoving;
     private Tween moveTween;
 
@@ -37,7 +39,7 @@ public class PlayerPawnUI : MonoBehaviour
         }
 
         pawnImage.sprite = run.SelectedHero.Image;
-        pawnImage.enabled = pawnImage.sprite != null;
+        pawnImage.enabled = showPawn && pawnImage.sprite != null;
 
         int lastCompletedBattle = -1;
 
@@ -108,7 +110,7 @@ public class PlayerPawnUI : MonoBehaviour
     {
         Vector2 destination = battlePositions[battleIndex];
 
-        if (moveDuration > 0f)
+        if (showPawn && animateMovement && moveDuration > 0f)
         {
             moveTween = pawnTransform
                 .DOAnchorPos(destination, moveDuration)

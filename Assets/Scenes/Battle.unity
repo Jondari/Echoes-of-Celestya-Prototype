@@ -1481,6 +1481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175d1ab314fb9c34bba3598ef2f5dd69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealSystem
+  healVFX: {fileID: 2933239014128363396, guid: ffbd014b787e49dea3c45a46c193fca3, type: 3}
 --- !u!1 &898760398
 GameObject:
   m_ObjectHideFlags: 0
@@ -3468,6 +3469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f7b3bc4a447ce4a995d8de3240da56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusEffectSystem
+  defenseVFX: {fileID: 8403254934820435613, guid: 4c7af18d31344c4593ad0dbabf27f1f3, type: 3}
+  buffVFX: {fileID: 8975116731807798836, guid: 1e361187350b43f8bc52d015e586265e, type: 3}
 --- !u!1 &2021164192
 GameObject:
   m_ObjectHideFlags: 0

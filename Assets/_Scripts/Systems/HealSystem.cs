@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class HealSystem : MonoBehaviour
 {
+    [SerializeField] private GameObject healVFX;
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<HealGA>(HealPerformer);
@@ -29,9 +30,18 @@ public class HealSystem : MonoBehaviour
                 continue;
             }
 
+            int healthBeforeHeal = target.CurrentHealth;
             target.Heal(healGA.Amount);
 
-            yield return null;
+            if (healVFX != null && target.CurrentHealth > healthBeforeHeal)
+            {
+                Instantiate(healVFX, target.transform.position, healVFX.transform.rotation);
+                yield return new WaitForSeconds(0.4f);
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 }

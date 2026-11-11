@@ -3,6 +3,8 @@ using System.Collections;
 
 public class StatusEffectSystem : MonoBehaviour
 {
+    [SerializeField] private GameObject defenseVFX;
+    [SerializeField] private GameObject buffVFX;
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<AddStatusEffectGA>(AddStatusEffectPerformer);
@@ -33,7 +35,22 @@ public class StatusEffectSystem : MonoBehaviour
             }
 
             target.AddStatusEffect(addStatusEffectGA.StatusEffectType, addStatusEffectGA.StackCount);
-            yield return null; // TODO ADD VFX for adding status effects
+            GameObject statusVFX = addStatusEffectGA.StatusEffectType switch
+            {
+                StatusEffectType.ARMOR => defenseVFX,
+                StatusEffectType.ATTACK_BUFF => buffVFX,
+                _ => null
+            };
+
+            if (statusVFX != null)
+            {
+                Instantiate(statusVFX, target.transform.position, statusVFX.transform.rotation);
+                yield return new WaitForSeconds(0.4f);
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 }

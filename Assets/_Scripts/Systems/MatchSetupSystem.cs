@@ -46,10 +46,34 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
             energySettings = GameSession.Instance.CurrentRun.EnergySettings;
         }
 
+        List<EnemyData> selectedEnemies = enemyDatas;
+
+        if (GameSession.Instance != null && GameSession.Instance.CurrentRun != null)
+        {
+            selectedEnemies = GameSession.Instance.CurrentRun.CurrentEnemies;
+        }
+
+        if (selectedEnemies == null
+            || selectedEnemies.Count == 0
+            || selectedEnemies.Count > 3)
+        {
+            Debug.LogError("Battle requires between one and three enemies.", this);
+            return;
+        }
+
+        foreach (EnemyData enemy in selectedEnemies)
+        {
+            if (enemy == null)
+            {
+                Debug.LogError("Battle composition contains a missing enemy.", this);
+                return;
+            }
+        }
+
         ManaSystem.Instance.Setup(energySettings);
         HeroSystem.Instance.Setup(selectedHero);
         CardSystem.Instance.Setup(deck);
-        EnemySystem.Instance.Setup(enemyDatas);
+        EnemySystem.Instance.Setup(selectedEnemies);
 
         bool counterAttackEnabled = standaloneCounterAttackEnabled;
 

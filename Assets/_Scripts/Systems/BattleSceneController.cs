@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public class BattleSceneController : Singleton<BattleSceneController>
 {
@@ -13,7 +14,25 @@ public class BattleSceneController : Singleton<BattleSceneController>
         {
             if (!isLoading && !SceneManager.GetSceneByName("Battle").isLoaded)
             {
-                GameSession.Instance.CurrentRun.UpdateCurrentEncounter(battleIndex);
+                if (EncounterSystem.Instance == null)
+                {
+                    Debug.LogError("No EncounterSystem available.", this);
+                    return;
+                }
+
+                if (!EncounterSystem.Instance.TryGenerateEnemies(out var enemies))
+                {
+                    // The generator already logs the reason.
+                    return;
+                }
+
+                RunState run = GameSession.Instance.CurrentRun;
+
+                if (!run.TrySetEncounter(battleIndex, enemies))
+                {
+                    Debug.LogError("Unable to store the encounter composition.", this);
+                    return;
+                }
                 isLoading = true;
                 StartCoroutine(LoadBattleRoutine());
             }

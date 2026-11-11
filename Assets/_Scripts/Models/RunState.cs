@@ -10,6 +10,7 @@ public class RunState
 
     public EnergySettings EnergySettings { get; private set; }
     public bool CounterAttackEnabled { get; private set; }
+    public List<EnemyData> CurrentEnemies { get; private set; } = new();
 
     public RunState(HeroData hero, EnergySettings energySettings, bool counterAttackEnabled)
     {
@@ -17,14 +18,6 @@ public class RunState
         CurrentDeck = new List<CardData>(hero.Deck);
         EnergySettings = energySettings.Copy();
         CounterAttackEnabled = counterAttackEnabled;
-    }
-
-    public void UpdateCurrentEncounter(int encounter)
-    {
-        if (encounter >= 0 && encounter < BattleCompleted.Length)
-        {
-            CurrentEncounter = encounter;
-        }
     }
 
     // A battle is available if its index is valid, it has not been completed,
@@ -42,5 +35,28 @@ public class RunState
     public void CompleteCurrentBattle()
     {
         BattleCompleted[CurrentEncounter] = true;
+    }
+
+    public bool TrySetEncounter(int battleIndex, List<EnemyData> enemies)
+    {
+        if (!IsBattleAvailable(battleIndex)
+            || enemies == null
+            || enemies.Count == 0
+            || enemies.Count > 3)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (enemies[i] == null)
+            {
+                return false;
+            }
+        }
+
+        CurrentEncounter = battleIndex;
+        CurrentEnemies = new List<EnemyData>(enemies);
+        return true;
     }
 }

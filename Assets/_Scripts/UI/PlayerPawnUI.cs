@@ -9,7 +9,17 @@ public class PlayerPawnUI : MonoBehaviour
     [SerializeField] private RectTransform pawnTransform;
 
     [SerializeField] private Vector2 startPosition = new(-563,-452);
-    [SerializeField] private Vector2[] battlePositions ={new(-563, -325), new(-766, -191), new(-577, -71)};
+    [SerializeField] private Vector2[] battlePositions ={
+        new(-563, -325), 
+        new(-766, -191), 
+        new(-577, -71),
+        new(-714, 48),
+        new(-485, 115),
+        new(-80, -134),
+        new(239, -30),
+        new(640, 115),
+        new(640, 360)
+    };
 
     [SerializeField] private CanvasGroup mapCanvasGroup;
     [SerializeField, Min(0f)] private float moveDuration = 0.5f;
